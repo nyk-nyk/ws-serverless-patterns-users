@@ -9,7 +9,7 @@ import time
 
 APPLICATION_STACK_NAME = os.getenv('ENV_STACK_NAME', 'ws-serverless-patterns-users-dev')
 globalConfig = {}
-
+boto3.setup_default_session(region_name='ap-northeast-2')
 
 def get_stack_outputs(stack_name):
     result = {}
@@ -109,7 +109,6 @@ def clear_dynamo_tables():
 @pytest.fixture(scope='session')
 def global_config(request):
     global globalConfig
-    boto3.setup_default_session(region_name='ap-northeast-2')
     # load outputs of the stacks to test
     globalConfig.update(get_stack_outputs(APPLICATION_STACK_NAME))
     globalConfig.update(create_cognito_accounts())
